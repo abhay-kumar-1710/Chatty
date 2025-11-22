@@ -1,0 +1,29 @@
+
+import os
+from dotenv import load_dotenv
+from apps.routes import create_app
+from apps.models import db
+from flask_jwt_extended import JWTManager
+from apps.routes.socket import socketio # Import socketio for running
+
+# Load environment variables from .env file
+load_dotenv()
+
+# The application entry point
+if __name__ == '__main__':
+    # 1. Create the application instance using the factory function
+    app = create_app()
+  
+
+    # 2. Run the application with SocketIO
+    # Note: Using socketio.run instead of app.run
+    # Set FLASK_DEBUG=True in .env for development
+    socketio.run(
+        app,
+        host="0.0.0.0",
+        debug=os.environ.get('FLASK_DEBUG', 'True') == 'True',
+        port=5000,
+        allow_unsafe_werkzeug=True # Needed for some dev setups
+    )
+    
+    

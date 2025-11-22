@@ -10,9 +10,10 @@ from apps.routes.socket import socketio # Import socketio for running
 load_dotenv()
 
 # The application entry point
+app = create_app()
+
 if __name__ == '__main__':
     # 1. Create the application instance using the factory function
-    app = create_app()
   
 
     # 2. Run the application with SocketIO

@@ -1,3 +1,7 @@
+import pymysql
+pymysql.install_as_MySQLdb()
+
+
 
 import os
 from dotenv import load_dotenv

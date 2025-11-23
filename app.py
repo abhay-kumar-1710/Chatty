@@ -1,9 +1,15 @@
+
+
+import os
+os.environ["EVENTLET_NO_GREENDNS"] = "yes"
+
+import eventlet
+eventlet.monkey_patch()
+
 import pymysql
 pymysql.install_as_MySQLdb()
 
 
-
-import os
 from dotenv import load_dotenv
 from apps.routes import create_app
 from apps.models import db

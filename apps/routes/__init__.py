@@ -39,7 +39,7 @@ def create_app(test_config=None):
     # ===============================
     if test_config is None:
         # Load configuration from environment variables (provided by load_dotenv in app.py)
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-dev-secret-key')
         app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'jwt-secret-default')
@@ -110,9 +110,11 @@ def create_app(test_config=None):
     # 5. Create tables and check database connection
     # ===============================
     with app.app_context():
-        # NOTE: For development only. Use Flask-Migrate in production.
-        db.create_all()
-        print("✅ Tables created successfully (if not already present).")
+        if app.debug:  # only for local developement
+            db.create_all()
+            print("Tables created in development.")
+        else:
+            print("Skipping db.create_all() in production.")
 
     # Return the initialized application, jwt, and db instance
     return app

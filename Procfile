@@ -1,1 +1,1 @@
-web: gunicorn apps.routes.socket:socketio --worker-class eventlet -w 1 --bind 0.0.0.0:5000
+web: gunicorn -k eventlet app:app --bind 0.0.0.0:5000 -w 1

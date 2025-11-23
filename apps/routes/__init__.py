@@ -97,11 +97,10 @@ def create_app(test_config=None):
     # We will adjust user.py to have a separate blueprint or use the default app route.
     # For simplicity, we'll keep it as-is for now, assuming the frontend accesses 
     # the index.html at the root via app.py or a web server, and all APIs are under /api.
-    if app.debug:
-        if os.environ.get('WERKZEUG_RUN_MAIN') == 'true' or not app.debug:
+    if app.debug and os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        try:
             scheduler = BackgroundScheduler()
             
-            # --- TESTING MODE: Set to run 1 minute from now for TESTING ---
             run_date = datetime.now() + timedelta(minutes=1)
             print(f"Scheduling birthday check to run for testing at: {run_date.isoformat()}")
 
@@ -114,11 +113,10 @@ def create_app(test_config=None):
                 replace_existing=True
             )
             scheduler.start()
-            
-            # Shutdown the scheduler when exiting the app
             atexit.register(lambda: scheduler.shutdown())
-    else:
-        print("Scheduler setup skipped in Werkzeug reloader process.")
+            print("✅ Scheduler started successfully")
+        except Exception as e:
+            print(f"⚠️ Scheduler setup failed: {e}")
     
     # ===============================
     # 5. Create tables and check database connection

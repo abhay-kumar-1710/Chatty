@@ -24,6 +24,16 @@ load_dotenv()
 # The application entry point
 app = create_app()
 
+
+if os.environ.get('FLASK_ENV') == 'production':
+    with app.app_context():
+        try:
+            from flask_migrate import upgrade
+            upgrade()
+            print("✅ Database migrations completed successfully")
+        except Exception as e:
+            print(f"⚠️ Migration warning: {e}")
+
 # if __name__ == '__main__':
 #     # 1. Create the application instance using the factory function
   

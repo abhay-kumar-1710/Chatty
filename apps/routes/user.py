@@ -31,10 +31,10 @@ cloudinary.config(
 user_bp = Blueprint('user', __name__)
 
 # ===== Web Route =====
-@user_bp.route('/')
+@user_bp.route('/test')
 def index():
     # Renders the index.html from the project root's 'templates' folder
-    return render_template('index.html')
+    return "Server running"
 
 
 # @user_bp.route('/presence', methods=['GET'])

@@ -5,8 +5,8 @@ os.environ["EVENTLET_NO_IPV6"] = "1"
 
 
 
-# import eventlet
-# eventlet.monkey_patch()
+import eventlet
+eventlet.monkey_patch()
 
 import pymysql
 pymysql.install_as_MySQLdb()

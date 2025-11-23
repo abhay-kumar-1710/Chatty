@@ -1,7 +1,7 @@
-import os
-os.environ["EVENTLET_NO_GREENDNS"] = "yes"
-os.environ["EVENTLET_HUB"] = "poll"
-os.environ["EVENTLET_NO_IPV6"] = "1"
+# import os
+# os.environ["EVENTLET_NO_GREENDNS"] = "yes"
+# os.environ["EVENTLET_HUB"] = "poll"
+# os.environ["EVENTLET_NO_IPV6"] = "1"
 
 
 

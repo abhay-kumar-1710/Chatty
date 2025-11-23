@@ -70,7 +70,8 @@ def create_app(test_config=None):
     migrate.init_app(app, db)
     
     # Initialize SocketIO
-    socketio.init_app(app, cors_allowed_origins="*")
+    socketio.init_app(app, cors_allowed_origins="*", async_mode="gevent")
+
     register_socket_handlers(app) # Register the handlers defined in socket.py
     
     # ===============================

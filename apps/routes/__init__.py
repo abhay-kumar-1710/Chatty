@@ -1,4 +1,11 @@
 import os
+os.environ["EVENTLET_NO_GREENDNS"] = "yes"
+os.environ["EVENTLET_HUB"] = "poll"
+os.environ["EVENTLET_NO_IPV6"] = "1"
+
+
+
+# import os
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -83,26 +90,26 @@ def create_app(test_config=None):
     # We will adjust user.py to have a separate blueprint or use the default app route.
     # For simplicity, we'll keep it as-is for now, assuming the frontend accesses 
     # the index.html at the root via app.py or a web server, and all APIs are under /api.
-    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true' or not app.debug:
+    if app.debug:
+        if os.environ.get('WERKZEUG_RUN_MAIN') == 'true' or not app.debug:
+            scheduler = BackgroundScheduler()
+            
+            # --- TESTING MODE: Set to run 1 minute from now for TESTING ---
+            run_date = datetime.now() + timedelta(minutes=1)
+            print(f"Scheduling birthday check to run for testing at: {run_date.isoformat()}")
 
-        scheduler = BackgroundScheduler()
-        
-        # --- TESTING MODE: Set to run 1 minute from now for TESTING ---
-        run_date = datetime.now() + timedelta(minutes=1)
-        print(f"Scheduling birthday check to run for testing at: {run_date.isoformat()}")
-
-        scheduler.add_job(
-            func=check_and_send_birthday_notifications, 
-            trigger="date", 
-            run_date=run_date,
-            args=[app],
-            id='birthday_checker',
-            replace_existing=True
-        )
-        scheduler.start()
-        
-        # Shutdown the scheduler when exiting the app
-        atexit.register(lambda: scheduler.shutdown())
+            scheduler.add_job(
+                func=check_and_send_birthday_notifications, 
+                trigger="date", 
+                run_date=run_date,
+                args=[app],
+                id='birthday_checker',
+                replace_existing=True
+            )
+            scheduler.start()
+            
+            # Shutdown the scheduler when exiting the app
+            atexit.register(lambda: scheduler.shutdown())
     else:
         print("Scheduler setup skipped in Werkzeug reloader process.")
     

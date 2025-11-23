@@ -1,3 +1,9 @@
+import os
+os.environ["EVENTLET_NO_GREENDNS"] = "yes"
+os.environ["EVENTLET_HUB"] = "poll"
+os.environ["EVENTLET_NO_IPV6"] = "1"
+
+
 from flask import request
 from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_jwt_extended import decode_token

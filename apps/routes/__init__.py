@@ -85,6 +85,12 @@ def create_app(test_config=None):
     # All API routes are now under the 'user' blueprint
     app.register_blueprint(user_bp, url_prefix='/api')
     
+    # Return the initialized application
+    @app.route("/")
+    def home():
+        return {"status": "running", "message": "Backend is live!"}
+
+    
     # Also register the root URL for the index.html
     # The '/' route is defined in user.py as well, so it maps to /api/ (oops)
     # Let's adjust: The web route '/' should be at the root, not under /api.

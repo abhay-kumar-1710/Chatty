@@ -12,6 +12,7 @@ import pymysql
 pymysql.install_as_MySQLdb()
 
 
+
 from dotenv import load_dotenv
 from apps.routes import create_app
 from apps.models import db
@@ -23,6 +24,15 @@ load_dotenv()
 
 # The application entry point
 app = create_app()
+
+
+with app.app_context():
+    try:
+        db.session.execute("SELECT 1")
+        print("🔥 DB CONNECTION SUCCESS")
+    except Exception as e:
+        print("❌ DB ERROR:", e)
+
 
 
 

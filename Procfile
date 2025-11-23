@@ -1,1 +1,1 @@
-web: gunicorn -k eventlet --bind 0.0.0.0:5000 -w 1 --timeout 120 --log-level info "app:app"
+web: python app.py

@@ -27,7 +27,7 @@ app = create_app()
 
 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
 #     # 1. Create the application instance using the factory function
   
 
@@ -43,7 +43,7 @@ app = create_app()
 #     # )
     
 #     # if __name__ == '__main__':
-#     socketio.run(app, host="0.0.0.0", port=5000)
+    socketio.run(app, host="0.0.0.0", port=5000)
 
     
     

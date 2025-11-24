@@ -50,12 +50,8 @@ if __name__ == '__main__':
         app,
         host=HOST,
         port=PORT,
-        debug=False,  # MUST be False in production
-        allow_unsafe_werkzeug=False,
-        logger=True,
-        engineio_logger=True,
+        debug=False
     )
-
 
 
 # if __name__ == '__main__':

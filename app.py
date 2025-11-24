@@ -38,6 +38,24 @@ with app.app_context():
 
 
 
+# IMPORTANT: Get port from environment, default to 5000
+PORT = int(os.environ.get('PORT', 5000))
+HOST = '0.0.0.0'
+
+if __name__ == '__main__':
+    print(f"🚀 Starting Flask app on {HOST}:{PORT}")
+    
+    # Use socketio.run for production-ready deployment
+    socketio.run(
+        app,
+        host=HOST,
+        port=PORT,
+        debug=False,  # MUST be False in production
+        allow_unsafe_werkzeug=False,
+        logger=True,
+        engineio_logger=True,
+    )
+
 
 
 # if __name__ == '__main__':

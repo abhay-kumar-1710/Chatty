@@ -26,8 +26,6 @@ load_dotenv()
 app = create_app()
 
 
-# Create Socket.IO WSGI app for Gunicorn
-socketio_app = socketio.WSGIApp(app)
 
 
 with app.app_context():

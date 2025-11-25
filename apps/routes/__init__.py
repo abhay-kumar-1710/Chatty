@@ -70,14 +70,14 @@ def create_app(test_config=None):
     migrate.init_app(app, db)
     
     # Initialize SocketIO
-    socketio.init_app(app, cors_allowed_origins="*", async_mode="eventlet")
+    socketio.init_app(app, cors_allowed_origins="https://joyful-haupia-8b0566.netlify.app", async_mode="eventlet")
 
     register_socket_handlers(app) # Register the handlers defined in socket.py
     
     # ===============================
     # 3. Enable CORS
     # ===============================
-    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "https://joyful-haupia-8b0566.netlify.app"}})
 
     # ===============================
     # 4. Register Blueprints

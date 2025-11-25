@@ -6,30 +6,57 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, hmac, padding
 import base64
+import requests
+
 
 def send_email(to_email, subject, body):
-    host = os.getenv("SMTP_HOST")
-    port = int(os.getenv("SMTP_PORT", 587))
-    user = os.getenv("SMTP_USER")
-    pwd = os.getenv("SMTP_PASS")
-    from_email = os.getenv("FROM_EMAIL", user)
-    
-    if not (host and user and pwd):
-        print("SMTP not configured; skipping email send.")
-        print("Would send to:", to_email, subject, body)
-        return False
-    
+    RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+
+    url = "https://api.resend.com/email"
+
+    headers = {
+        "Authorization": f"Bearer {RESEND_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    data = {
+        "from": "Chat App <onboarding@resend.dev>",
+        "to": [to_email],
+        "subject": subject,
+        "text": body
+    }
+
     try:
-        server = smtplib.SMTP(host, port)
-        server.starttls()
-        server.login(user, pwd)
-        message = f"From: {from_email}\r\nTo: {to_email}\r\nSubject: {subject}\r\n\r\n{body}"
-        server.sendmail(from_email, to_email, message)
-        server.quit()
+        r = requests.post(url, json=data, headers=headers)
+        print("EMAIL SENT RESPONSE:", r.text)
         return True
     except Exception as e:
         print("Email send error:", e)
         return False
+
+# def send_email(to_email, subject, body):
+#     host = os.getenv("SMTP_HOST")
+#     port = int(os.getenv("SMTP_PORT", 587))
+#     user = os.getenv("SMTP_USER")
+#     pwd = os.getenv("SMTP_PASS")
+#     from_email = os.getenv("FROM_EMAIL", user)
+    
+#     if not (host and user and pwd):
+#         print("SMTP not configured; skipping email send.")
+#         print("Would send to:", to_email, subject, body)
+#         return False
+    
+#     try:
+#         server = smtplib.SMTP(host, port)
+#         server.starttls()
+#         server.login(user, pwd)
+#         message = f"From: {from_email}\r\nTo: {to_email}\r\nSubject: {subject}\r\n\r\n{body}"
+#         server.sendmail(from_email, to_email, message)
+#         server.quit()
+#         return True
+#     except Exception as e:
+#         print("Email send error:", e)
+#         return False
 
 def gen_otp(length=4):
     """Generates a random N-digit OTP."""
